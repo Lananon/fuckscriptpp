@@ -2,7 +2,7 @@
 
 Fuckscript++ is language designed to be compiled to brainfuck. Its intended as more easily readable and writable language than plain brainfuck, aiming to be to brainfuck what C is to normal machine code
 
-IMPORTANT NOTE: Fuckscript is not complete yet. this is simply a specification, the proper compiler isnt there yet unfortunately. Btw, the reason im basing this off my own fuckscript project is because regular fuckscript will serve as an intermediary representation in the compilation process
+IMPORTANT NOTE: Fuckscript is not complete yet. this is simply a specification, the proper compiler isnt there yet unfortunately.
 
 # FUCKSCRIPT LANGUAGE SPECIFICATION
 
