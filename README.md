@@ -6,11 +6,24 @@ IMPORTANT NOTE: Fuckscript is not complete yet. this is simply a specification, 
 
 # FUCKSCRIPT LANGUAGE SPECIFICATION
 
+## SYNTAX
+
+being C inspired, fuckscript is a semicolon language. semicolons show the compiler where a statement begins and ends.
+
+Loops are put into square brackets (```[]```), not only cuz we just. dont have arrays rn. but also because thats what bf does.
+
+fuckscript supports include statements, tho like C i do not plan on having a module system. Include statements simply will have to preprocessor paste the file youre including into the file youre including it into.
+
+```@include std.fspp```
+
+theyre prefixed with an @ and dont need parentheses to show that they arent actually used by the compiler and are only relevant to the preprocessor
+
+> (note, we do not have a standard library yet an its not really a priority for me. Once the language is in a usable state i will work on making one tho)
 ## VARIABLES
 
 variables can be declared like so:
 
-```var x = 20```
+```var x = 20;```
 
 note that as of now, variables can only be integers. String support might be added in future versions of the specification.
 
