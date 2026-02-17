@@ -19,7 +19,7 @@ def assemble(text):
         
         i += 1
 
-        if opcode == "point":
+        if opcode == "pnt":
             if position > val:
                 for n in range(position - val):
                     output += "<"
