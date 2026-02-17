@@ -16,7 +16,7 @@ fuckscript supports include statements, tho like C i do not plan on having a mod
 
 ```@include std.fspp```
 
-theyre prefixed with an @ and dont need parentheses to show that they arent actually used by the compiler and are only relevant to the preprocessor
+theyre prefixed with an @ and dont need semicolons to show that they arent actually used by the compiler and are only relevant to the preprocessor
 
 > (note, we do not have a standard library yet an its not really a priority for me. Once the language is in a usable state i will work on making one tho)
 ## VARIABLES
