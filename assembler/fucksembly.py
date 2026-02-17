@@ -50,4 +50,9 @@ def assemble(text):
         if opcode == "]":
             output += "]"
 
+        if opcode == "out":
+            output += "."
+        if opcode == "inp":
+            output += ","
+
     return output
