@@ -32,9 +32,11 @@ def assemble(text):
         if opcode == "mvr":
             for n in range(val):
                 output += ">"
+                position += 1
         if opcode == "mvl":
             for n in range(val):
                 output += "<"
+                position -= 1
 
         if opcode == "set":
             output += "[-]"

@@ -1,0 +1,28 @@
+pnt 0
+set 49
+pnt 1
+set 50
+pnt -1
+set 0
+pnt 0
+set 0
+pnt 1
+[
+pnt 0
+inc
+pnt -1
+inc
+pnt 1
+dec
+]
+pnt -1
+[
+pnt 1
+inc
+pnt -1
+dec
+]
+pnt 0
+out
+pnt 1
+out

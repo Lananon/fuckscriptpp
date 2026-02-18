@@ -7,10 +7,13 @@ from sys import argv
 
 def main():
     if len(argv) > 1:
-        bf_file = open(argv[1]).read()
-        print(compile(bf_file))
+        file = open(argv[1]).read()
+        if len(argv) > 2:
+            if argv[2] == "bfasm":
+                execute(assemble(file))
+        print(compile(file))
     else:
-        print("Usage: python3 main.py [file.bf]")
+        print("Usage: python3 main.py [file.bf] ([mode])")
 
 if __name__ == "__main__":
     main()
