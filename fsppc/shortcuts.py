@@ -1,14 +1,15 @@
-def find_free_temp_mem(temp_mem_dict):
-    i = -1
-    while i in temp_mem_dict:
-        i -= 1
+def find_free_mem(mem_dict):
+    i = 0
+    while i in list(mem_dict.values()):
+        i += 1
     return i
 
-def add(pos1, pos2, target_pos, temp_mem_dict):
-    temp_pos = find_free_temp_mem(temp_mem_dict)
+
+def add(pos1, pos2, target_pos, mem_dict):
+    temp_pos = find_free_mem(mem_dict)
     
     output = ""
-    output += copy(target_pos, pos1, temp_mem_dict)
+    output += copy(target_pos, pos1, mem_dict)
     output += "\npnt " + str(temp_pos) + "\nset 0"
     output += "\npnt " + str(pos2)
     output += "\n[\npnt " + str(target_pos)
@@ -19,11 +20,11 @@ def add(pos1, pos2, target_pos, temp_mem_dict):
 
     return output
 
-def sub(pos1, pos2, target_pos, temp_mem_dict):
-    temp_pos = find_free_temp_mem(temp_mem_dict)
+def sub(pos1, pos2, target_pos, mem_dict):
+    temp_pos = find_free_mem(mem_dict)
     
     output = ""
-    output += copy(target_pos, pos1, temp_mem_dict)
+    output += copy(target_pos, pos1, mem_dict)
     output += "\npnt " + str(temp_pos) + "\nset 0"
     output += "\npnt " + str(pos2)
     output += "\n[\npnt " + str(target_pos)
@@ -34,8 +35,8 @@ def sub(pos1, pos2, target_pos, temp_mem_dict):
 
     return output
 
-def copy(target_pos, copied_pos, temp_mem_dict):
-    temp_pos = find_free_temp_mem(temp_mem_dict)
+def copy(target_pos, copied_pos, mem_dict):
+    temp_pos = find_free_mem(mem_dict)
 
     output = "\n"
     output += "pnt " + str(target_pos)
@@ -51,7 +52,3 @@ def copy(target_pos, copied_pos, temp_mem_dict):
     return output 
     
     
-
-mem = {}
-
-print(sub(2, 4, 5, mem))

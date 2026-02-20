@@ -1,2 +1,2 @@
 var wawa = 10;
-wawa = 20;
+var wawa = 10;
