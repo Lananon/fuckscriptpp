@@ -8,10 +8,11 @@ from sys import argv
 def main():
     if len(argv) > 1:
         file = open(argv[1]).read()
-        # if len(argv) > 2:
-        #     if argv[2] == "bfasm":
-        #         execute(assemble(file))
-        print(compile(file))
+        if len(argv) > 2:
+            if argv[2] == "bfasm":
+                execute(assemble(file))
+                return
+        compile(file)
     else:
         print("Usage: python3 main.py [file.bf] ([mode])")
 

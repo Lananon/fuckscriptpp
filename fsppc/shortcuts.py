@@ -1,54 +1,100 @@
+import string
+import random
+
+def gen_temp_name():
+    output = "tmp_"
+    output += "".join(random.choice(string.ascii_uppercase) for  _ in range(6))
+    return output
+
+def free(alloc, mem_dict):
+    mem_dict.pop(alloc)
+
 def find_free_mem(mem_dict):
     i = 0
     while i in list(mem_dict.values()):
         i += 1
     return i
 
+def allocate_set(alloc_name, value, mem_dict, output):
+    pos = find_free_mem(mem_dict)
+    mem_dict.update({alloc_name: pos})
+    output.append(f"pnt {pos}")
+    output.append(f"set {value}")
+    return pos
 
-def add(pos1, pos2, target_pos, mem_dict):
+def add(pos1, pos2, target_pos, mem_dict, output):
     temp_pos = find_free_mem(mem_dict)
     
-    output = ""
-    output += copy(target_pos, pos1, mem_dict)
-    output += "\npnt " + str(temp_pos) + "\nset 0"
-    output += "\npnt " + str(pos2)
-    output += "\n[\npnt " + str(target_pos)
-    output += "\ninc\npnt " + str(temp_pos) + "\ninc"
-    output += "\npnt " + str(pos2) + "\ndec\n]"
-    output += "\npnt " + str(temp_pos) + "\n["
-    output += "\npnt " + str(pos2) + "\ninc\npnt " + str(temp_pos) + "\ndec\n]"
+    copy(target_pos, pos1, mem_dict, output)
+    output.append(f"pnt {str(temp_pos)}")
+    output.append("set 0")
+    output.append(f"pnt {str(pos2)}")
+    output.append("[")
+    output.append(f"pnt {str(target_pos)}")
+    output.append("inc")
+    output.append(f"pnt {str(temp_pos)}")
+    output.append("inc")
+    output.append(f"pnt {str(pos2)}")
+    output.append("dec")
+    output.append("]")
+    output.append(f"pnt {str(temp_pos)}")
+    output.append("[")
+    output.append(f"pnt {str(pos2)}")
+    output.append("inc")
+    output.append(f"pnt {str(temp_pos)}")
+    output.append("dec")
+    output.append("]")
 
-    return output
+    return target_pos
 
-def sub(pos1, pos2, target_pos, mem_dict):
+def sub(pos1, pos2, target_pos, mem_dict, output):
     temp_pos = find_free_mem(mem_dict)
     
-    output = ""
-    output += copy(target_pos, pos1, mem_dict)
-    output += "\npnt " + str(temp_pos) + "\nset 0"
-    output += "\npnt " + str(pos2)
-    output += "\n[\npnt " + str(target_pos)
-    output += "\ndec\npnt " + str(temp_pos) + "\ninc"
-    output += "\npnt " + str(pos2) + "\ndec\n]"
-    output += "\npnt " + str(temp_pos) + "\n["
-    output += "\npnt " + str(pos2) + "\ninc\npnt " + str(temp_pos) + "\ndec\n]"
+    copy(target_pos, pos1, mem_dict, output)
+    output.append(f"pnt {str(temp_pos)}")
+    output.append("set 0")
+    output.append(f"pnt {str(pos2)}")
+    output.append("[")
+    output.append(f"pnt {str(target_pos)}")
+    output.append("dec")
+    output.append(f"pnt {str(temp_pos)}")
+    output.append("inc")
+    output.append(f"pnt {str(pos2)}")
+    output.append("dec")
+    output.append("]")
+    output.append(f"pnt {str(temp_pos)}")
+    output.append("[")
+    output.append(f"pnt {str(pos2)}")
+    output.append("inc")
+    output.append(f"pnt {str(temp_pos)}")
+    output.append("dec")
+    output.append("]")
 
-    return output
+    return target_pos
 
-def copy(target_pos, copied_pos, mem_dict):
+def copy(target_pos, copied_pos, mem_dict, output):
     temp_pos = find_free_mem(mem_dict)
 
-    output = "\n"
-    output += "pnt " + str(target_pos)
-    output += "\nset 0\npnt " + str(temp_pos) + "\nset 0"
-    output += "\npnt " + str(copied_pos) + "\n["
-    output += "\npnt " + str(target_pos) + "\ninc"
-    output += "\npnt " + str(temp_pos) + "\ninc"
-    output += "\npnt " + str(copied_pos) + "\ndec\n]"
-    output += "\npnt " + str(temp_pos) + "\n["
-    output += "\npnt " + str(copied_pos) + "\ninc"
-    output += "\npnt " + str(temp_pos) + "\ndec\n]"
+    output.append(f"pnt {str(target_pos)}")
+    output.append(f"set 0")
+    output.append(f"pnt {str(temp_pos)}")
+    output.append(f"set 0")
+    output.append(f"pnt {str(copied_pos)}")
+    output.append("[")
+    output.append(f"pnt {str(target_pos)}")
+    output.append("inc")
+    output.append(f"pnt {str(temp_pos)}")
+    output.append("inc")
+    output.append(f"pnt {str(copied_pos)}")
+    output.append("dec")
+    output.append("]")
+    output.append(f"pnt {str(temp_pos)}")
+    output.append("[")
+    output.append(f"pnt {str(copied_pos)}")
+    output.append("inc")
+    output.append(f"pnt {str(temp_pos)}")
+    output.append("dec")
+    output.append("]")
+    
+    return target_pos
 
-    return output 
-    
-    

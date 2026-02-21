@@ -13,20 +13,13 @@ def comp_error(error):
     stderr.write("ERROR: " + error)
     exit()
 
-def set_var(var_name, value, var_dict):
-    address = var_dict[var_name]
-    output = "\npnt " + str(address) + "\nset " + str(value)
-    return output
-    
-
 def parse(text):
     
     statements = text.replace("\n", "").split(";")
     return statements
 
-def evaluate_expression(expression, mem_dict, mode):
+def evaluate_expression(expression, mem_dict, mode, output):
     address = 0
-    output = ""
 
     valid_operators = ["+", "-", "==", "!=", "||"]    
     components = []
@@ -44,22 +37,35 @@ def evaluate_expression(expression, mem_dict, mode):
             
     components.append(current_component)
 
-    if is_number(components[0]):
-        temp_mem_location = sc.find_free_mem(mem_dict)
-        output += "\npnt " + str(temp_mem_location)
-        output += "\nset " + components[0]
-    
+    if len(components) < 2:
+        if is_number(components[0]):
+            tempname = sc.gen_temp_name()
+            return sc.allocate_set(tempname, components[0], mem_dict, output)
+    elif len(components) == 3 and components[1] in valid_operators:
+        
+        match components[1]:
+            case "+":
+                target = sc.allocate_set("add_target", 0, mem_dict, output)
+                pos1 = evaluate_expression(components[0], mem_dict, "address", output)
+                pos2 = evaluate_expression(components[2], mem_dict, "address", output)
+                result = sc.add(pos1, pos2, target, mem_dict, output)
+                return result
+            case _:
+                comp_error("expression error: invalid operator")
+        
+    else:
+        comp_error("expression error: invalid expression")
+        
+
+
     if mode == "address":
         return address
-    if mode == "output":
-        return output
     if mode == "components":
         return components
-    
 
 
 def compile(text):
-    output = ""
+    output = []
     statements = parse(text)
     # dict keeping track of variables and their location on the bf memory tape
     var_dict = {}
@@ -72,12 +78,8 @@ def compile(text):
                 if tokens[1] in var_dict:
                     comp_error("variable defined twice")
                 if not tokens[1] in var_dict:
-                    var_pos = sc.find_free_mem(var_dict)
-                    var_dict.update({tokens[1]: var_pos})
-                    output += set_var(tokens[1], int(tokens[3]), var_dict)
+                    sc.allocate_set(tokens[1], tokens[3], var_dict, output)
         
+    text_output = "\n".join(output)
+    return text_output
 
-
-    return output
-
-print(evaluate_expression("2 + 2 + 2", "", "components"))
