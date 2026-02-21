@@ -18,9 +18,7 @@ def parse(text):
     statements = text.replace("\n", "").split(";")
     return statements
 
-def evaluate_expression(expression, mem_dict, mode, output):
-    address = 0
-
+def evaluate_expression(expression, mem_dict, output):
     valid_operators = ["+", "-", "==", "!=", "||"]    
     components = []
     current_component = ""
@@ -41,14 +39,23 @@ def evaluate_expression(expression, mem_dict, mode, output):
         if is_number(components[0]):
             tempname = sc.gen_temp_name()
             return sc.allocate_set(tempname, components[0], mem_dict, output)
+        elif components[0] in mem_dict:
+            return mem_dict[components[0]] 
     elif len(components) == 3 and components[1] in valid_operators:
         
         match components[1]:
             case "+":
-                target = sc.allocate_set("add_target", 0, mem_dict, output)
-                pos1 = evaluate_expression(components[0], mem_dict, "address", output)
-                pos2 = evaluate_expression(components[2], mem_dict, "address", output)
+                
+                target = sc.allocate_set(sc.gen_temp_name(), 0, mem_dict, output)
+                pos1 = evaluate_expression(components[0], mem_dict, output)
+                pos2 = evaluate_expression(components[2], mem_dict, output)
                 result = sc.add(pos1, pos2, target, mem_dict, output)
+                return result
+            case "-":
+                target = sc.allocate_set(sc.gen_temp_name(), 0, mem_dict, output)
+                pos1 = evaluate_expression(components[0], mem_dict, output)
+                pos2 = evaluate_expression(components[2], mem_dict, output)
+                result = sc.sub(pos1, pos2, target, mem_dict, output)
                 return result
             case _:
                 comp_error("expression error: invalid operator")
@@ -58,10 +65,6 @@ def evaluate_expression(expression, mem_dict, mode, output):
         
 
 
-    if mode == "address":
-        return address
-    if mode == "components":
-        return components
 
 
 def compile(text):
@@ -78,8 +81,15 @@ def compile(text):
                 if tokens[1] in var_dict:
                     comp_error("variable defined twice")
                 if not tokens[1] in var_dict:
-                    sc.allocate_set(tokens[1], tokens[3], var_dict, output)
+                    expression = " ".join(tokens[3:len(tokens)])
+                    exp_result_pos = evaluate_expression(expression, var_dict, output)
+                    var_pos = sc.allocate_set(tokens[1], "0", var_dict, output)
+                    sc.copy(var_pos, exp_result_pos, var_dict, output)
+        elif tokens[0] == "print":
+            expression = tokens[1:len(tokens)]
+            exp_result_pos = evaluate_expression(expression, var_dict, output)
+            output.append(f"pnt {exp_result_pos}")
+            output.append("out")
         
     text_output = "\n".join(output)
     return text_output
-

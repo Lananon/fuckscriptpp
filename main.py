@@ -12,7 +12,8 @@ def main():
             if argv[2] == "bfasm":
                 execute(assemble(file))
                 return
-        compile(file)
+        print(compile(file))
+        execute(assemble(compile(file)))
     else:
         print("Usage: python3 main.py [file.bf] ([mode])")
 

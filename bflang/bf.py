@@ -16,7 +16,7 @@ def execute(bf_file):
         elif code[current_op] == "<" :
             ptr -= 1
         elif code[current_op] == "." :
-            print(chr(data[ptr]))
+            print(data[ptr])
         elif code[current_op] == ",":
             data[ptr] = ord(input())
         elif code[current_op] == "[":
